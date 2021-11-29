@@ -1,0 +1,19 @@
+S
+T
+U
+V
+
+a
+b
+
+S -> T
+S -> U
+T -> V a T
+T -> V a V
+T -> T a V
+U -> V b U
+U -> V b V
+U -> U b V
+V -> a V b V
+V -> b V a V
+V -> eps
