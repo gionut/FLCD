@@ -1,5 +1,7 @@
 package Grammar;
 
+import lombok.Data;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class Grammar {
     Map<String, Terminal> terminals = new HashMap<>();
     Map<String, NonTerminal> nonTerminals = new HashMap<>();
@@ -26,6 +29,7 @@ public class Grammar {
             String line = bufferedReader.readLine();
 
             this.start = new NonTerminal(line.strip());
+            this.start.setProductions(new ArrayList<>());
             this.nonTerminals.put(this.start.symbol, this.start);
 
             int state = 0; // READ NON TERMINALS
@@ -73,7 +77,6 @@ public class Grammar {
                     line = bufferedReader.readLine();
                 }
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -97,7 +100,7 @@ public class Grammar {
             sb.append(this.terminals.get(term)).append("\n");
         }
         sb.append("\nstart: ").append(this.start);
-        sb.append("\nis cfg: ").append(this.isCFG);
+        sb.append("\n" + "is cfg: ").append(this.isCFG);
         return sb.toString();
     }
 }
