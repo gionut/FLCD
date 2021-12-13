@@ -1,0 +1,21 @@
+E
+A
+Op
+
+x
+(
+)
+-
++
+*
+/
+
+E -> x
+E -> x A
+E -> ( E )
+A -> Op E A
+A -> eps
+Op -> +
+Op -> -
+Op -> *
+Op -> /

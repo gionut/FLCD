@@ -1,5 +1,6 @@
 package Parser;
 
+import Grammar.Epsilon;
 import Grammar.NonTerminal;
 import Grammar.Symbol;
 import Grammar.Terminal;
@@ -37,8 +38,13 @@ public class Element {
     public boolean isNonTerminal() {
         return this.symbol instanceof NonTerminal;
     }
+
     public boolean isTerminal() {
         return this.symbol instanceof Terminal;
+    }
+
+    public boolean isEpsilon() {
+        return this.symbol instanceof Epsilon;
     }
 
     public static List<Element> symbolsToElements(List<Symbol> symbols){

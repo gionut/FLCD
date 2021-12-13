@@ -3,6 +3,7 @@ package Parser;
 import Grammar.Grammar;
 import Grammar.NonTerminal;
 import Grammar.Symbol;
+import Grammar.Epsilon;
 
 import java.util.List;
 
@@ -28,8 +29,12 @@ public class RecursiveDescendant {
                     if(!inputStack.isEmpty() && inputStack.peek().isNonTerminal()) {
                         RecursiveDescendant.Expand(config);
                     }
-                    else if(!inputStack.isEmpty() && inputStack.peek().isTerminal() && w.length() > config.getIndex() &&
-                            inputStack.peek().getTerminal().getSymbol().charAt(0) == w.charAt(config.getIndex())) {
+                    else if(!inputStack.isEmpty() && inputStack.peek().isEpsilon()) {
+                        inputStack.pop();
+                        workingStack.pop();
+                    }
+                    else if(!inputStack.isEmpty() && w.length() > config.getIndex() && inputStack.peek().isTerminal()
+                            && inputStack.peek().getTerminal().getSymbol().charAt(0) == w.charAt(config.getIndex())){
                         RecursiveDescendant.Advance(config);
                     }
                     else RecursiveDescendant.MomentaryInsuccess(config);
@@ -48,6 +53,9 @@ public class RecursiveDescendant {
         else {
             System.out.println("Sequence Accepted");
             BuildStringOfProductions(workingStack);
+            Table t = new Table();
+            t.constructTable(workingStack);
+            System.out.println(t.toString());
         }
     }
 
@@ -100,11 +108,14 @@ public class RecursiveDescendant {
             config.getInputStack().addAllReverse(Element.symbolsToElements(nextProd));
         }
         else{
+            if(config.index == 0 && nonTerm == start.getSymbol()) {
+                config.state = StateType.e;
+                return;
+            }
             config.getInputStack().popK(prod.size());
             config.getInputStack().add(new Element(nonTerm, 0));
         }
-        if(config.index == 0 && nonTerm == start.getSymbol())
-            config.state = StateType.e;
+
     }
 
     static void Back(ModelConfiguration config) {
